@@ -57,7 +57,7 @@ function Curation() {
   const fetchProductData = (category, keyword, setSearchProductList) => {
     axios
       .get(
-        `http://api.thepet.thehyundai.site:8080/api/product/search?main-category=${category}&keyword=${keyword}`
+        `http://localhost:8080/api/product/search?main-category=${category}&keyword=${keyword}`
       )
       .then((res) => {
         if (res.data) {
