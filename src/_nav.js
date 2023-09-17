@@ -56,6 +56,19 @@ const _nav = [
     ]
   },
   {
+    component: CNavGroup,
+    name: "흰디 카 ",
+    to: "/heendycar",
+    icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: "예약 현황 및 관리",
+        to: "/heendycar/BranchHeendyCar",
+      },
+    ]
+  },
+  {
     component: CNavTitle,
     name: "Theme",
   },
