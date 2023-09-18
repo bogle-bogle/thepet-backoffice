@@ -4,6 +4,7 @@ const Dashboard = React.lazy(() => import("./views/dashboard/Dashboard"));
 const Product = React.lazy(() => import("./views/product/Product"));
 const General = React.lazy(() => import("./views/productregister/general/General"));
 const Curation = React.lazy(() => import("./views/productregister/curation/Curation"));
+const BranchHeendyCar = React.lazy(() => import("./views/heendycar/BranchHeendyCar"));
 
 const Colors = React.lazy(() => import("./views/theme/colors/Colors"));
 const Typography = React.lazy(() =>
@@ -87,6 +88,7 @@ const routes = [
   { path: "/productregister/general", name: "General", element: General },
   { path: "/productregister/curation", name: "Curation", element: Curation },
   { path: "/product", name: "Product", element: Product },
+  { path: "/heendycar/BranchHeendyCar", name: "BranchHeendyCar", element: BranchHeendyCar },
   { path: "/theme", name: "Theme", element: Colors, exact: true },
   { path: "/theme/colors", name: "Colors", element: Colors },
   { path: "/theme/typography", name: "Typography", element: Typography },
