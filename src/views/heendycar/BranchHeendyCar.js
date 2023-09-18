@@ -18,12 +18,15 @@ import {
   CTableHeaderCell,
   CTableBody,
   CTableDataCell,
+  CModalFooter,
+  CButton,
 } from "@coreui/react";
 import axios from "axios";
+import { format } from 'date-fns';
 
 function BranchHeendyCar() {
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [ShowEachBranchVisible, setShowEachBranchVisible] = useState(false);
+  const [showEachBranchVisible, setShowEachBranchVisible] = useState(false);
   const [suppliesSearchResults, setSuppliesSearchResults] = useState([]);
 
   useEffect(() => {
@@ -62,22 +65,14 @@ function BranchHeendyCar() {
     setShowEachBranchVisible(false);
   };
 
-  const ShowEachBranch = () => {
-    return (
-      <>
-        <CModal
-          size="xl"
-          alignment="center"
-          scrollable
-          visible={ShowEachBranchVisible}
-          onClose={() => closeSuppliesSearchModal()}
-          aria-labelledby="StaticBackdropExampleLabel"
-        >
-          <CModalHeader>
-            <CModalTitle>예약 현황</CModalTitle>
-          </CModalHeader>
-          <CModalBody>
-            <CTable hover>
+  return (
+    <>
+    {showEachBranchVisible && <CModal size='xl' alignment="center" scrollable visible={showEachBranchVisible} onClose={() => setShowEachBranchVisible(false)}>
+        <CModalHeader>
+          <CModalTitle>예약 현황</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+        <CTable hover>
               <CTableHead>
                 <CTableRow>
                   <CTableHeaderCell scope="col">회원 아이디</CTableHeaderCell>
@@ -97,30 +92,20 @@ function BranchHeendyCar() {
                   </CTableRow>
                 ) : (
                   suppliesSearchResults.map((product) => (
-                    <CTableRow
-                      key={product.id}
-                      onClick={() => {
-                        selectSupplies(item)
-                      }}
-                    >
-                      <CTableHeaderCell scope="row">{product.memberId}</CTableHeaderCell>
-                      <CTableHeaderCell scope="row">{product.reservationTime}</CTableHeaderCell>
-                      <CTableHeaderCell scope="row">{product.createdAt}</CTableHeaderCell>
-                      <CTableHeaderCell scope="row">{product.pickupYn}</CTableHeaderCell>
-                      <CTableHeaderCell scope="row">{product.cancelYn}</CTableHeaderCell>
-                      <CTableHeaderCell scope="row">{product.returnYn}</CTableHeaderCell>
+                    <CTableRow>
+                      <CTableDataCell scope="row">{product.memberId}</CTableDataCell>
+                      <CTableDataCell scope="row">{format(new Date(product.reservationTime), 'yyyy-MM-dd HH:mm:ss')}</CTableDataCell>
+                      <CTableDataCell scope="row">{format(new Date(product.createdAt), 'yyyy-MM-dd HH:mm:ss')}</CTableDataCell>
+                      <CTableDataCell scope="row">{product.pickupYn}</CTableDataCell>
+                      <CTableDataCell scope="row">{product.cancelYn}</CTableDataCell>
+                      <CTableDataCell scope="row">{product.returnYn}</CTableDataCell>
                     </CTableRow>
                   ))
                 )}
               </CTableBody>
             </CTable>
-          </CModalBody>
-        </CModal>
-      </>
-    );
-  };
-
-  return (
+        </CModalBody>
+      </CModal>}
     <CCol xs={12}>
       <CCard className="mb-4">
         <CCardHeader>
@@ -130,22 +115,27 @@ function BranchHeendyCar() {
           <CRow xs={{ cols: 5 }} md={{ cols: 3 }} className="g-4">
             {selectedProducts.map((product, index) => (
               <CCol xs key={index}>
-                <CCard className="h-100" onClick={() => openSuppliesSearchModal(product.branchCode)}>
+                <CCard className="h-100" onClick={() => {
+                  setShowEachBranchVisible(true);
+                  openSuppliesSearchModal(product.branchCode)
+                  }}>
                   <CCardImage orientation="top" src={product.imgUrl || ""} style={{height:"265px"}} />
                   <CCardBody>
                     <CCardTitle>{product.name || ""}</CCardTitle>
                     <CCardText>
-                      {product.cnt ? product.cnt.toLocaleString() : ""}
+                      잔여량 : <span className={product.cnt >= 15 ? "text-success" : (product.cnt >= 7 ? "text-warning" : "text-danger")}>
+                                {product.cnt ? product.cnt.toLocaleString() : ""}
+                              </span>
                     </CCardText>
                   </CCardBody>
                 </CCard>
-                {ShowEachBranch()}
               </CCol>
             ))}
           </CRow>
         </CCardBody>
       </CCard>
     </CCol>
+    </>
   );
 }
 
