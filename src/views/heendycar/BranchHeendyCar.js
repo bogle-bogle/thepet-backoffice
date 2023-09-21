@@ -28,6 +28,7 @@ function BranchHeendyCar() {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [showEachBranchVisible, setShowEachBranchVisible] = useState(false);
   const [suppliesSearchResults, setSuppliesSearchResults] = useState([]);
+  const [initialButtonStates, setInitialButtonStates] = useState({});
 
   useEffect(() => {
       axios.get(`http://localhost:8080/api/hc/branch`)
@@ -39,7 +40,6 @@ function BranchHeendyCar() {
             imgUrl: item.imgUrl,
             descr: item.description,
           }));
-
           setSelectedProducts(transformedData);
         })
         
@@ -53,6 +53,7 @@ function BranchHeendyCar() {
     axios
       .get(`http://localhost:8080/api/hc/branch/${branchCode}/reservation`)
       .then((res) => {
+        console.log(res.data);
         setSuppliesSearchResults(res.data);
         setShowEachBranchVisible(true);
       })
@@ -65,6 +66,21 @@ function BranchHeendyCar() {
     setShowEachBranchVisible(false);
   };
 
+
+  const handleToggle = (e, productId, newValue, idx) => {
+    axios
+        .put(`http://localhost:8080/api/hc/updateStatus/${productId}/${e.target.id}/${newValue}`)
+        .then(res => {
+          if (res.status === 200) {
+            setSuppliesSearchResults((prev) => {
+              const newList = [...prev];
+              newList[idx][e.target.id] = newValue;
+              return newList;
+            })
+          }
+        })
+  };
+  
   return (
     <>
     {showEachBranchVisible && <CModal size='xl' alignment="center" scrollable visible={showEachBranchVisible} onClose={() => setShowEachBranchVisible(false)}>
@@ -72,12 +88,13 @@ function BranchHeendyCar() {
           <CModalTitle>예약 현황</CModalTitle>
         </CModalHeader>
         <CModalBody>
-        <CTable hover>
+        <CTable>
               <CTableHead>
                 <CTableRow>
-                  <CTableHeaderCell scope="col">회원 아이디</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">회원 번호</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">회원 이름</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">전화 번호</CTableHeaderCell>
                   <CTableHeaderCell scope="col">예약 시간</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">예약한 시간</CTableHeaderCell>
                   <CTableHeaderCell scope="col">픽업 여부</CTableHeaderCell>
                   <CTableHeaderCell scope="col">취소 여부</CTableHeaderCell>
                   <CTableHeaderCell scope="col">반납 여부</CTableHeaderCell>
@@ -91,14 +108,52 @@ function BranchHeendyCar() {
                     </CTableDataCell>
                   </CTableRow>
                 ) : (
-                  suppliesSearchResults.map((product) => (
-                    <CTableRow>
+                  suppliesSearchResults.map((product, idx) => (
+                    
+                    <CTableRow key={product.id}>
                       <CTableDataCell scope="row">{product.memberId}</CTableDataCell>
+                      <CTableDataCell scope="row">{product.name}</CTableDataCell>
+                      <CTableDataCell scope="row">{product.phoneNumber ? product.phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3") : ''}</CTableDataCell>
                       <CTableDataCell scope="row">{format(new Date(product.reservationTime), 'yyyy-MM-dd HH:mm:ss')}</CTableDataCell>
-                      <CTableDataCell scope="row">{format(new Date(product.createdAt), 'yyyy-MM-dd HH:mm:ss')}</CTableDataCell>
-                      <CTableDataCell scope="row">{product.pickupYn}</CTableDataCell>
-                      <CTableDataCell scope="row">{product.cancelYn}</CTableDataCell>
-                      <CTableDataCell scope="row">{product.returnYn}</CTableDataCell>
+                      <CTableDataCell scope="row">
+                        <span
+                          style={{
+                            marginLeft: '20px',
+                            color: product.pickupYn === 'Y' ? 'green' : 'red', // 'Y'는 초록색, 'N'은 빨간색으로 설정
+                          }}
+                        >
+                          {product.pickupYn}
+                        </span> 
+                        <CButton id="pickupYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.pickupYn === "Y"? "N" : "Y", idx)} disabled={product.pickupYn === 'Y'}>
+                          {product.pickupYn === 'Y' ? '완료' : '대기중'}
+                        </CButton>
+                      </CTableDataCell>
+                      <CTableDataCell scope="row">
+                        <span
+                          style={{
+                            marginLeft: '20px',
+                            color: product.cancelYn === 'Y' ? 'green' : 'red', // 'Y'는 초록색, 'N'은 빨간색으로 설정
+                          }}
+                        >
+                          {product.cancelYn}
+                        </span> 
+                        <CButton id="cancelYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.cancelYn === "Y"? "N" : "Y", idx)} disabled={product.pickupYn === 'Y'}>
+                          {product.cancelYn === 'Y' ? '완료' : '대기중'}
+                        </CButton>
+                      </CTableDataCell>
+                      <CTableDataCell scope="row">
+                        <span
+                          style={{
+                            marginLeft: '20px',
+                            color: product.returnYn === 'Y' ? 'green' : 'red', // 'Y'는 초록색, 'N'은 빨간색으로 설정
+                          }}
+                        >
+                          {product.returnYn}
+                        </span> 
+                        <CButton id="returnYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.returnYn === "Y"? "N" : "Y", idx)} disabled={product.pickupYn === 'Y'}>
+                          {product.returnYn === 'Y' ? '완료' : '대기중'}
+                        </CButton>
+                      </CTableDataCell>
                     </CTableRow>
                   ))
                 )}
