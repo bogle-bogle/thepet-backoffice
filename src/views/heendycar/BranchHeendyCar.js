@@ -137,7 +137,7 @@ function BranchHeendyCar() {
                         >
                           {product.cancelYn}
                         </span> 
-                        <CButton id="cancelYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.cancelYn === "Y"? "N" : "Y", idx)} disabled={product.pickupYn === 'Y'}>
+                        <CButton id="cancelYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.cancelYn === "Y"? "N" : "Y", idx)} disabled={product.cancelYn === 'Y'}>
                           {product.cancelYn === 'Y' ? '완료' : '대기중'}
                         </CButton>
                       </CTableDataCell>
@@ -150,7 +150,7 @@ function BranchHeendyCar() {
                         >
                           {product.returnYn}
                         </span> 
-                        <CButton id="returnYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.returnYn === "Y"? "N" : "Y", idx)} disabled={product.pickupYn === 'Y'}>
+                        <CButton id="returnYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.returnYn === "Y"? "N" : "Y", idx)} disabled={product.returnYn === 'Y'}>
                           {product.returnYn === 'Y' ? '완료' : '대기중'}
                         </CButton>
                       </CTableDataCell>
