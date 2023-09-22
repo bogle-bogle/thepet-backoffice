@@ -40,6 +40,15 @@ const _nav = [
     },
   },
   {
+
+    component: CNavItem,
+    name: "회원 목록",
+    to: "/member",
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+    badge: {
+      color: "info",
+      text: "NEW",
+    },
     component: CNavGroup,
     name: "매출 전략 통계",
     to: "/statistics",

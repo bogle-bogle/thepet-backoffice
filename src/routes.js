@@ -2,6 +2,7 @@ import React from "react";
 
 const Dashboard = React.lazy(() => import("./views/dashboard/Dashboard"));
 const Product = React.lazy(() => import("./views/product/Product"));
+<<<<<<< HEAD
 const General = React.lazy(() =>
   import("./views/productregister/general/General")
 );
@@ -14,6 +15,12 @@ const Productstatistics = React.lazy(() =>
 const BranchHeendyCar = React.lazy(() =>
   import("./views/heendycar/BranchHeendyCar")
 );
+=======
+const Member = React.lazy(() => import("./views/member/Member"));
+const General = React.lazy(() => import("./views/productregister/general/General"));
+const Curation = React.lazy(() => import("./views/productregister/curation/Curation"));
+const BranchHeendyCar = React.lazy(() => import("./views/heendycar/BranchHeendyCar"));
+>>>>>>> 0502cd32c171f3e58a358281f03cfe1389f748b0
 
 const Colors = React.lazy(() => import("./views/theme/colors/Colors"));
 const Typography = React.lazy(() =>
@@ -94,11 +101,15 @@ const routes = [
   { path: "/", exact: true, name: "Home" },
   { path: "/dashboard", name: "Dashboard", element: Dashboard },
   { path: "/product", name: "Product", element: Product },
+<<<<<<< HEAD
   {
     path: "/statistics/productstatistics",
     name: "Productstatistics",
     element: Productstatistics,
   },
+=======
+  { path: "/member", name: "Product", element: Member },
+>>>>>>> 0502cd32c171f3e58a358281f03cfe1389f748b0
   { path: "/productregister/general", name: "General", element: General },
   { path: "/productregister/curation", name: "Curation", element: Curation },
   { path: "/product", name: "Product", element: Product },
