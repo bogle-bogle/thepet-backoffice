@@ -11,6 +11,7 @@ import {
   cilPencil,
   cilPuzzle,
   cilSpeedometer,
+  cilTags,
   cilStar,
 } from "@coreui/icons";
 import { CNavGroup, CNavItem, CNavTitle } from "@coreui/react";
@@ -37,6 +38,7 @@ const _nav = [
     },
   },
   {
+
     component: CNavItem,
     name: "회원 목록",
     to: "/member",
@@ -45,6 +47,35 @@ const _nav = [
       color: "info",
       text: "NEW",
     },
+    component: CNavGroup,
+    name: "상품 등록",
+    to: "/productregister",
+    icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: "일반 상품 등록",
+        to: "/productregister/general",
+      },
+      {
+        component: CNavItem,
+        name: "구독 상품 등록",
+        to: "/productregister/curation",
+      },
+    ]
+  },
+  {
+    component: CNavGroup,
+    name: "흰디 카 ",
+    to: "/heendycar",
+    icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: "예약 현황 및 관리",
+        to: "/heendycar/BranchHeendyCar",
+      },
+    ]
   },
   {
     component: CNavTitle,
