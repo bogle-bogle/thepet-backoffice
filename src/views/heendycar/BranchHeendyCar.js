@@ -112,6 +112,7 @@ function BranchHeendyCar() {
                     
                     <CTableRow key={product.id}>
                       <CTableDataCell scope="row">{product.memberId}</CTableDataCell>
+                      <CTableDataCell scope="row">{product.serialNumber}</CTableDataCell>
                       <CTableDataCell scope="row">{product.name}</CTableDataCell>
                       <CTableDataCell scope="row">{product.phoneNumber ? product.phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3") : ''}</CTableDataCell>
                       <CTableDataCell scope="row">{format(new Date(product.reservationTime), 'yyyy-MM-dd HH:mm:ss')}</CTableDataCell>
