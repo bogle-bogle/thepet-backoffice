@@ -13,6 +13,8 @@ import {
   cilSpeedometer,
   cilTags,
   cilStar,
+  cilBabyCarriage,
+  cilBarChart
 } from "@coreui/icons";
 import { CNavGroup, CNavItem, CNavTitle } from "@coreui/react";
 
@@ -48,6 +50,19 @@ const _nav = [
       text: "NEW",
     },
     component: CNavGroup,
+    name: "매출 전략 통계",
+    to: "/statistics",
+    icon: <CIcon icon={cilBarChart} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: "상품 통계",
+        to: "/statistics/productstatistics",
+      }
+    ]
+  },
+  {
+    component: CNavGroup,
     name: "상품 등록",
     to: "/productregister",
     icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
@@ -66,9 +81,9 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    name: "흰디 카 ",
+    name: "흰디카 (반려견 트롤리) ",
     to: "/heendycar",
-    icon: <CIcon icon={cilTags} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilBabyCarriage} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
