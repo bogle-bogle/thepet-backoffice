@@ -65,7 +65,7 @@ function Productstatistics() {
       </CCol>
       <CCol xs={6}>
         <CCard className="mb-4">
-          <CCardHeader><strong>{currentMonth-1}월 상품 대분류 별 매출 건수</strong></CCardHeader>
+          <CCardHeader><strong>대분류 별 판매량 건수</strong></CCardHeader>
           <CCardBody>
             <CChartDoughnut data={mainCategoryData} />
           </CCardBody>
@@ -73,7 +73,7 @@ function Productstatistics() {
       </CCol>
       <CCol xs={6}>
         <CCard className="mb-4">
-          <CCardHeader><strong>{currentMonth-1}월 상품 별 판매량 기준 순위 TOP10</strong></CCardHeader>
+          <CCardHeader><strong>매출 기준 순위 TOP10</strong></CCardHeader>
           <CCardBody>
             <CTable hover>
               <CTableHead>
