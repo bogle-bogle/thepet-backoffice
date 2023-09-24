@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   CCard,
   CCardBody,
@@ -10,43 +11,69 @@ import {
   CTableHead,
   CTableHeaderCell,
   CTableRow,
+  CCardHeader,
 } from "@coreui/react";
-import {
-  CChartBar
-} from "@coreui/react-chartjs";
+import { CChartDoughnut } from "@coreui/react-chartjs";
 
 function Productstatistics() {
-  const random = () => Math.round(Math.random() * 100);
+  const [monthTop10Data, setMonthTop10Data] = useState([]);
+  const [mainCategoryData, setMainCategoryData] = useState({});
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/backoffice/top10")
+      .then((response) => {
+        const fetchedData = response.data;
+        console.log(fetchedData);
+        setMonthTop10Data(fetchedData.slice(0, 10));
+
+        const frequency = fetchedData.reduce((acc, item) => {
+          const code = item.mainCategoryCode;
+          acc[code] = (acc[code] || 0) + 1;
+          return acc;
+        }, {});
+
+        const labels = Object.keys(frequency);
+        const data = Object.values(frequency);
+
+        setMainCategoryData({
+          labels,
+          datasets: [
+            {
+              data,
+              backgroundColor: ["#233E8B", "#1EAE98", "#A9F1DF", "#FFFFC7"],
+            },
+          ],
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+      });
+  }, []);
+
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1; // getMonth()는 0부터 시작하므로 1을 더함
+  console.log(`현재는 ${currentMonth-1}월입니다.`);
 
   return (
     <CRow>
       <CCol xs={12}>
         <h3>
-          <strong>🏆지난 달 상품별 매출 순위 TOP5 (매달 1일 자동 갱신)</strong>
+          <strong>📊 지난 달 {currentMonth-1}월 상품별 매출 현황 (매달 1일 자동 갱신)</strong>
         </h3>
         <div>&nbsp;</div>
       </CCol>
       <CCol xs={6}>
         <CCard className="mb-4">
+          <CCardHeader><strong>{currentMonth-1}월 상품 대분류 별 매출 건수</strong></CCardHeader>
           <CCardBody>
-            <CChartBar
-              data={{
-                labels: ["January", "February", "March", "April", "May"],
-                datasets: [
-                  {
-                    label: "GitHub Commits",
-                    backgroundColor: "#f87979",
-                    data: [220, 20, 12, 39, 10],
-                  },
-                ],
-              }}
-              labels="months"
-            />
+            <CChartDoughnut data={mainCategoryData} />
           </CCardBody>
         </CCard>
       </CCol>
       <CCol xs={6}>
         <CCard className="mb-4">
+          <CCardHeader><strong>{currentMonth-1}월 상품 별 판매량 기준 순위 TOP10</strong></CCardHeader>
           <CCardBody>
             <CTable hover>
               <CTableHead>
@@ -54,18 +81,31 @@ function Productstatistics() {
                   <CTableHeaderCell scope="col">순위</CTableHeaderCell>
                   <CTableHeaderCell scope="col">상품코드</CTableHeaderCell>
                   <CTableHeaderCell scope="col">상품이름</CTableHeaderCell>
+                  <CTableHeaderCell scope="col"></CTableHeaderCell>
                   <CTableHeaderCell scope="col">월 판매량</CTableHeaderCell>
                   <CTableHeaderCell scope="col">월 매출</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
               <CTableBody>
-                <CTableRow>
-                  <CTableHeaderCell>아이디</CTableHeaderCell>
-                  <CTableDataCell>이미지</CTableDataCell>
-                  <CTableDataCell>이름</CTableDataCell>
-                  <CTableDataCell>가격원</CTableDataCell>
-                  <CTableDataCell>가격원</CTableDataCell>
-                </CTableRow>
+                {monthTop10Data.map((item, index) => (
+                  <CTableRow key={index}>
+                    <CTableHeaderCell>{item.ranking}</CTableHeaderCell>
+                    <CTableDataCell>{item.productId}</CTableDataCell>
+                    <CTableDataCell>
+                      <img
+                        src={item.mainImgUrl}
+                        alt={item.productName}
+                        width="50"
+                        height="50"
+                      />
+                    </CTableDataCell>
+                    <CTableDataCell>{item.productName}</CTableDataCell>
+                    <CTableDataCell>{item.salesVolume} (개)</CTableDataCell>
+                    <CTableDataCell>
+                      {item.salesAmount.toLocaleString()} ₩
+                    </CTableDataCell>
+                  </CTableRow>
+                ))}
               </CTableBody>
             </CTable>
           </CCardBody>
