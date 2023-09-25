@@ -92,6 +92,7 @@ function BranchHeendyCar() {
               <CTableHead>
                 <CTableRow>
                   <CTableHeaderCell scope="col">회원 번호</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">유모차 번호</CTableHeaderCell>
                   <CTableHeaderCell scope="col">회원 이름</CTableHeaderCell>
                   <CTableHeaderCell scope="col">전화 번호</CTableHeaderCell>
                   <CTableHeaderCell scope="col">예약 시간</CTableHeaderCell>
@@ -113,8 +114,8 @@ function BranchHeendyCar() {
                     <CTableRow key={product.id}>
                       <CTableDataCell scope="row">{product.memberId}</CTableDataCell>
                       <CTableDataCell scope="row">{product.serialNumber}</CTableDataCell>
-                      <CTableDataCell scope="row">{product.name}</CTableDataCell>
-                      <CTableDataCell scope="row">{product.phoneNumber ? product.phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3") : ''}</CTableDataCell>
+                      <CTableDataCell scope="row">{product.name.charAt(0) + '*'.repeat(product.name.length - 1)}</CTableDataCell>
+                      <CTableDataCell scope="row">{product.phoneNumber ?product.phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-****-$3") :''}</CTableDataCell>
                       <CTableDataCell scope="row">{format(new Date(product.reservationTime), 'yyyy-MM-dd HH:mm:ss')}</CTableDataCell>
                       <CTableDataCell scope="row">
                         <span
@@ -125,7 +126,7 @@ function BranchHeendyCar() {
                         >
                           {product.pickupYn}
                         </span> 
-                        <CButton id="pickupYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.pickupYn === "Y"? "N" : "Y", idx)} disabled={product.pickupYn === 'Y'}>
+                        <CButton id="pickupYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.pickupYn === "Y"? "N" : "Y", idx)} disabled={product.pickupYn === 'Y' }>
                           {product.pickupYn === 'Y' ? '완료' : '대기중'}
                         </CButton>
                       </CTableDataCell>
@@ -138,7 +139,7 @@ function BranchHeendyCar() {
                         >
                           {product.cancelYn}
                         </span> 
-                        <CButton id="cancelYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.cancelYn === "Y"? "N" : "Y", idx)} disabled={product.cancelYn === 'Y'}>
+                        <CButton id="cancelYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.cancelYn === "Y"? "N" : "Y", idx)} disabled={product.returnYn === 'Y'||product.cancelYn === 'Y'}>
                           {product.cancelYn === 'Y' ? '완료' : '대기중'}
                         </CButton>
                       </CTableDataCell>
@@ -151,7 +152,7 @@ function BranchHeendyCar() {
                         >
                           {product.returnYn}
                         </span> 
-                        <CButton id="returnYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.returnYn === "Y"? "N" : "Y", idx)} disabled={product.returnYn === 'Y'}>
+                        <CButton id="returnYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.returnYn === "Y"? "N" : "Y", idx)} disabled={product.returnYn === 'Y'||product.cancelYn === 'Y'}>
                           {product.returnYn === 'Y' ? '완료' : '대기중'}
                         </CButton>
                       </CTableDataCell>
