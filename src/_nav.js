@@ -47,6 +47,16 @@ const _nav = [
     },
   },
   {
+    component: CNavItem,
+    name: "로그 통계",
+    to: "/eventlog",
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+    badge: {
+      color: "info",
+      text: "NEW",
+    },
+  },
+  {
     component: CNavTitle,
     name: "Theme",
   },

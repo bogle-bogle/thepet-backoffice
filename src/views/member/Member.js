@@ -1,9 +1,6 @@
 import {
-  CButton,
   CButtonGroup,
   CFormCheck,
-  CFormInput,
-  CInputGroup,
   CTable,
   CTableBody,
   CTableDataCell,
@@ -21,18 +18,20 @@ function Member() {
   const [checkedButton, setCheckedButton] = useState("entire");
 
   useEffect(() => {
-    Api.get("/api/member/entire").then((res) => setMembers([...res.data]));
+    Api.get("/api/backoffice/member/entire").then((res) =>
+      setMembers([...res.data])
+    );
   }, []);
 
   const handleMemberCheckbox = (e) => {
     const { id } = e.target;
     setCheckedButton(() => id);
-    Api.get(`/api/member/${id}`).then((res) => setMembers([...res.data]));
+    Api.get(`/api/backoffice/member/${id}`).then((res) =>
+      setMembers([...res.data])
+    );
   };
 
   const createTable = (selected) => {
-    console.log(selected);
-    console.log(members);
     if (selected === "entire" || selected === "heendy") {
       return (
         <CTable>
