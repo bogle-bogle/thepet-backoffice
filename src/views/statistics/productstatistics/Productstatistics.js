@@ -65,8 +65,8 @@ function Productstatistics() {
       </CCol>
       <CCol xs={6}>
         <CCard className="mb-4">
-          <CCardHeader><strong>대분류 별 판매량 건수</strong></CCardHeader>
-          <CCardBody>
+          <CCardHeader><strong>대분류 별 판매량 건수 (용품 / 식품 / 의류 / 장난감)</strong></CCardHeader>
+          <CCardBody> 
             <CChartDoughnut data={mainCategoryData} />
           </CCardBody>
         </CCard>
@@ -94,12 +94,12 @@ function Productstatistics() {
                     <CTableDataCell>
                       <img
                         src={item.mainImgUrl}
-                        alt={item.productName}
+                        alt={item.name}
                         width="50"
                         height="50"
                       />
                     </CTableDataCell>
-                    <CTableDataCell>{item.productName}</CTableDataCell>
+                    <CTableDataCell>{item.name}</CTableDataCell>
                     <CTableDataCell>{item.salesVolume} (개)</CTableDataCell>
                     <CTableDataCell>
                       {item.salesAmount.toLocaleString()} ₩
@@ -111,8 +111,15 @@ function Productstatistics() {
           </CCardBody>
         </CCard>
       </CCol>
+      <CCol xs={12}>
+        <h3>
+          <strong>📊 장바구니 행동 통계</strong>
+        </h3>
+        <div>&nbsp;</div>
+      </CCol>
     </CRow>
   );
 }
 
 export default Productstatistics;
+// 진우 강쥐 다녀감
