@@ -29,9 +29,9 @@ import {
   CWidgetStatsF,
 } from "@coreui/react";
 import { SearchContainer, SearchImg, CustomDatePicker } from "./Curation.style";
-
+import * as Api from "../../../api";
 import { ko } from "date-fns/esm/locale";
-import axios from "axios";
+
 
 function Curation() {
   const [name, setName] = useState("");
@@ -66,8 +66,8 @@ function Curation() {
   const uploadImageToS3 = async (imageFile) => {
     const formData = new FormData();
     formData.append("file", imageFile);
-    const response = await axios.post(
-      "http://localhost:8080/api/upload",
+    const response = await Api.post(
+      `/api/upload`,
       formData,
       {
         headers: {
@@ -92,9 +92,9 @@ function Curation() {
 
   const [searchProductList, setSearchProductList] = useState([]);
   const fetchProductData = async (category, keyword, setSearchProductList) => {
-    await axios
+    await Api
       .get(
-        `http://localhost:8080/api/product/search?main-category=${category}&keyword=${keyword}`
+        `/api/product/search?main-category=${category}&keyword=${keyword}`
       )
       .then((res) => {
         if (res.data) {
@@ -120,8 +120,8 @@ function Curation() {
       product3Id: selectedSupplies.id,
     };
     console.log(curationData);
-    axios
-      .post("http://localhost:8080/api/curation", curationData)
+    Api
+      .post(`/api/curation`, curationData)
       .then((res) => {
         console.log(res.data);
       });
