@@ -28,6 +28,7 @@ jobs:
         run: |
           touch .env
           echo REACT_APP_GA_PROPERTY_ID=${{ secrets.REACT_APP_GA_PROPERTY_ID }} >> .env
+          echo REACT_APP_SERVER_URL=${{ secrets.REACT_APP_SERVER_URL }} >> .env
           cat .env
 
       - name: Install dependencies
