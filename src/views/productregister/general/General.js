@@ -20,7 +20,7 @@ import {
   proteinCode,
   animalCode,
 } from "src/commonCode.js";
-import axios from "axios";
+import * as Api from "../../../api";
 
 function General() {
   const [name, setName] = useState("");
@@ -76,7 +76,7 @@ function General() {
     }
     const imgUrl = await uploadImageToS3(foodDescImgFile);
     console.log("imgUrl", imgUrl);
-    await axios.post("http://localhost:8000/ai/ocr", { imgUrl }).then((res) => {
+    await Api.post(`/ai/ocr`, { imgUrl }).then((res) => {
       if (res.data) {
         console.log(res.data);
         setOCRResult(res.data);
@@ -87,8 +87,8 @@ function General() {
   const uploadImageToS3 = async (imageFile) => {
     const formData = new FormData();
     formData.append("file", imageFile);
-    const response = await axios.post(
-      "http://localhost:8080/api/upload",
+    const response = await Api.post(
+      `/api/upload`,
       formData,
       {
         headers: {

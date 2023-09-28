@@ -21,8 +21,8 @@ import {
   CModalFooter,
   CButton,
 } from "@coreui/react";
-import axios from "axios";
 import { format } from 'date-fns';
+import * as Api from "../../api";
 
 function BranchHeendyCar() {
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -31,7 +31,7 @@ function BranchHeendyCar() {
   const [initialButtonStates, setInitialButtonStates] = useState({});
 
   useEffect(() => {
-      axios.get(`http://localhost:8080/api/hc/branch`)
+    Api.get(`/api/hc/branch`)
         .then((res) => {
           const transformedData = res.data.map((item) => ({
             branchCode: item.branchCode,
@@ -50,8 +50,8 @@ function BranchHeendyCar() {
 
 
   const openSuppliesSearchModal = (branchCode) => {
-    axios
-      .get(`http://localhost:8080/api/hc/branch/${branchCode}/reservation`)
+    Api
+      .get(`/api/hc/branch/${branchCode}/reservation`)
       .then((res) => {
         console.log(res.data);
         setSuppliesSearchResults(res.data);
@@ -68,8 +68,8 @@ function BranchHeendyCar() {
 
 
   const handleToggle = (e, productId, newValue, idx) => {
-    axios
-        .put(`http://localhost:8080/api/hc/updateStatus/${productId}/${e.target.id}/${newValue}`)
+    Api
+        .put(`/api/hc/updateStatus/${productId}/${e.target.id}/${newValue}`)
         .then(res => {
           if (res.status === 200) {
             setSuppliesSearchResults((prev) => {
