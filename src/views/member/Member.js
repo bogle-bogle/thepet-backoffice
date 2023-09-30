@@ -7,11 +7,11 @@ import {
   CTableHead,
   CTableHeaderCell,
   CTableRow,
-} from '@coreui/react';
-import React, { useEffect, useRef, useState } from 'react';
-import { DocsExample } from 'src/components';
+} from "@coreui/react";
+import React, { useEffect, useRef, useState } from "react";
+import { DocsExample } from "src/components";
+import * as Api from "../../api";
 
-import * as Api from '../../api';
 
 function Member() {
   const [members, setMembers] = useState([]);
