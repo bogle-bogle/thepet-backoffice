@@ -126,7 +126,7 @@ function BranchHeendyCar() {
                         >
                           {product.pickupYn}
                         </span> 
-                        <CButton id="pickupYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.pickupYn === "Y"? "N" : "Y", idx)} disabled={product.pickupYn === 'Y' }>
+                        <CButton id="pickupYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.pickupYn === "Y"? "N" : "Y", idx)} disabled={product.pickupYn === 'Y' ||product.cancelYn === 'Y'}>
                           {product.pickupYn === 'Y' ? '완료' : '대기중'}
                         </CButton>
                       </CTableDataCell>
