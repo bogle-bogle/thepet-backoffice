@@ -1,15 +1,15 @@
-import { CButtonGroup, CFormCheck } from "@coreui/react";
-import React from "react";
-import { useState } from "react";
-import MainLog from "./MainLog";
-import { useEffect } from "react";
+import { CButtonGroup, CFormCheck } from '@coreui/react';
+import React from 'react';
+import { useState } from 'react';
+import MainLog from './MainLog';
+import { useEffect } from 'react';
 
-import * as Api from "../../api";
-import SuggestionLog from "./SuggestionLog";
-import ProductCartRate from "./ProductCartRate";
+import * as Api from '../../api';
+import SuggestionLog from './SuggestionLog';
+import ProductCartRate from './ProductCartRate';
 
 function EventLog() {
-  const [checkedButton, setCheckedButton] = useState("main");
+  const [checkedButton, setCheckedButton] = useState('main');
   const [statistics, setStatistics] = useState();
   useEffect(() => {
     Api.get(`/api/backoffice/event/main`).then((res) => {
@@ -29,11 +29,11 @@ function EventLog() {
   };
 
   const createChart = () => {
-    if (checkedButton === "main") {
+    if (checkedButton === 'main') {
       return <MainLog statistics={statistics}></MainLog>;
-    } else if (checkedButton === "recommend") {
+    } else if (checkedButton === 'recommend') {
       return <SuggestionLog statistics={statistics}></SuggestionLog>;
-    } else if (checkedButton === "shop") {
+    } else if (checkedButton === 'shop') {
       return <ProductCartRate statistics={statistics}></ProductCartRate>;
     }
   };
@@ -45,32 +45,32 @@ function EventLog() {
       >
         <CFormCheck
           type="radio"
-          button={{ color: "primary", variant: "outline" }}
+          button={{ color: 'dark', variant: 'outline' }}
           name="member"
           id="main"
           autoComplete="off"
           label="메인"
-          defaultChecked={checkedButton === "main"}
+          defaultChecked={checkedButton === 'main'}
           onClick={handleMemberCheckbox}
         />
         <CFormCheck
           type="radio"
-          button={{ color: "primary", variant: "outline" }}
+          button={{ color: 'dark', variant: 'outline' }}
           name="member"
           id="recommend"
           autoComplete="off"
           label="추천"
-          defaultChecked={checkedButton === "recommend"}
+          defaultChecked={checkedButton === 'recommend'}
           onClick={handleMemberCheckbox}
         />
         <CFormCheck
           type="radio"
-          button={{ color: "primary", variant: "outline" }}
+          button={{ color: 'dark', variant: 'outline' }}
           name="member"
           id="shop"
           autoComplete="off"
           label="쇼핑"
-          defaultChecked={checkedButton === "shop"}
+          defaultChecked={checkedButton === 'shop'}
           onClick={handleMemberCheckbox}
         />
       </CButtonGroup>
