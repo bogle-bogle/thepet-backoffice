@@ -90,10 +90,12 @@ function General() {
   const uploadImageToS3 = async (imageFile) => {
     const formData = new FormData();
     formData.append('file', imageFile);
-    const response = await Api.post(`/api/upload`, formData, {
+    const response = await Api.post(`/api/upload/admin`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
+    }).catch((error) => {
+      console.log(error);
     });
     return response.data;
   };
