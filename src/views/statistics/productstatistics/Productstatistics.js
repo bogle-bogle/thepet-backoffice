@@ -52,7 +52,6 @@ function Productstatistics() {
 
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1; // getMonth()는 0부터 시작하므로 1을 더함
-  console.log(`현재는 ${currentMonth - 1}월입니다.`);
 
   return (
     <CRow>
@@ -116,12 +115,6 @@ function Productstatistics() {
             </CTable>
           </CCardBody>
         </CCard>
-      </CCol>
-      <CCol xs={12}>
-        <h3>
-          <strong>📊 장바구니 행동 통계</strong>
-        </h3>
-        <div>&nbsp;</div>
       </CCol>
     </CRow>
   );

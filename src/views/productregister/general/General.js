@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   CButton,
   CCard,
@@ -12,27 +12,28 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
-} from "@coreui/react";
-import { DocsExample } from "src/components";
+} from '@coreui/react';
+import { DocsExample } from 'src/components';
 import {
   productMain,
   productSub,
   proteinCode,
   animalCode,
-} from "src/commonCode.js";
-import * as Api from "../../../api";
+} from 'src/commonCode.js';
+import * as Api from '../../../api';
+import axios from 'axios';
 
 function General() {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [animalCategory, setAnimalCategory] = useState("");
-  const [category, setCategory] = useState("");
-  const [subCategory, setSubCategory] = useState("");
-  const [subSubCategory, setSubSubCategory] = useState("");
-  const [mainImgFile, setMainImgFile] = useState("");
-  const [descImgFile, setDescImgFile] = useState("");
-  const [foodDescImgFile, setFoodDescImgFile] = useState("");
-  const [ocrResult, setOCRResult] = useState("");
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [animalCategory, setAnimalCategory] = useState('');
+  const [category, setCategory] = useState('');
+  const [subCategory, setSubCategory] = useState('');
+  const [subSubCategory, setSubSubCategory] = useState('');
+  const [mainImgFile, setMainImgFile] = useState('');
+  const [descImgFile, setDescImgFile] = useState('');
+  const [foodDescImgFile, setFoodDescImgFile] = useState('');
+  const [ocrResult, setOCRResult] = useState('');
 
   const handleAnimalCategoryChange = (e) => {
     const selectedCategory = e.target.value;
@@ -42,14 +43,14 @@ function General() {
   const handleCategoryChange = (e) => {
     const selectedCategory = e.target.value;
     setCategory(selectedCategory);
-    setSubCategory("");
-    setSubSubCategory("");
+    setSubCategory('');
+    setSubSubCategory('');
   };
 
   const handleSubCategoryChange = (e) => {
     const selectedSubCategory = e.target.value;
     setSubCategory(selectedSubCategory);
-    setSubSubCategory("");
+    setSubSubCategory('');
   };
 
   const handleSubSubCategoryChange = (e) => {
@@ -71,12 +72,14 @@ function General() {
 
   const handleOcrBtn = async () => {
     if (!foodDescImgFile) {
-      alert("성분 이미지 파일을 선택해주세요.");
+      alert('성분 이미지 파일을 선택해주세요.');
       return;
     }
     const imgUrl = await uploadImageToS3(foodDescImgFile);
-    console.log("imgUrl", imgUrl);
-    await Api.post(`/ai/ocr`, { imgUrl }).then((res) => {
+    console.log('imgUrl', imgUrl);
+    await axios.post(`https://ocr-nlp.thepet.thehyundai.site/ai/ocr`, {
+      imgUrl,
+    }).then((res) => {
       if (res.data) {
         console.log(res.data);
         setOCRResult(res.data);
@@ -86,16 +89,12 @@ function General() {
 
   const uploadImageToS3 = async (imageFile) => {
     const formData = new FormData();
-    formData.append("file", imageFile);
-    const response = await Api.post(
-      `/api/upload`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    formData.append('file', imageFile);
+    const response = await Api.post(`/api/upload`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   };
 
@@ -111,12 +110,10 @@ function General() {
       animalTypeCode: animalCategory,
       proteinCode: subSubCategory,
     };
-    console.log(productData)
-    axios
-      .post("http://localhost:8080/api/product/general", productData)
-      .then((res) => {
-        console.log(res.data);
-      });
+    console.log(productData);
+    axios.post('/api/product/general', productData).then((res) => {
+      console.log(res.data);
+    });
   };
 
   return (
@@ -188,7 +185,7 @@ function General() {
               onChange={handleSubSubCategoryChange}
               value={subSubCategory}
             >
-              {category == "FD" &&
+              {category == 'FD' &&
                 Object.entries(proteinCode).map(([code, name]) => (
                   <option key={code} value={code}>
                     {name}
@@ -228,7 +225,7 @@ function General() {
             <CFormTextarea
               value={ocrResult}
               onChange={(e) => setOCRResult(e.target.value)}
-              style={{ resize: "none", height: "170px" }}
+              style={{ resize: 'none', height: '170px' }}
             >
               {ocrResult}
             </CFormTextarea>
@@ -238,7 +235,7 @@ function General() {
       <div className="d-grid gap-2 col-6 mx-auto">
         <CButton
           classtype="submit"
-          color="primary"
+          color="success"
           onClick={resgisterGeneralProduct}
         >
           일반 상품 등록하기
