@@ -1,0 +1,15 @@
+.nav-item > .nav-link {
+  color: black;
+}
+
+.nav-item > a {
+  color: black;
+}
+
+.nav-group > .nav-link {
+  color: black;
+}
+
+.nav-item {
+  color: black;
+}
