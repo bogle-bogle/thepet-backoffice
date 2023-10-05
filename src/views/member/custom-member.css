@@ -1,0 +1,11 @@
+.btn-group .btn {
+  color: 'black';
+}
+
+.btn-group label {
+  color: 'black';
+}
+
+.btn-group + label {
+  color: black;
+}

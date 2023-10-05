@@ -1,6 +1,11 @@
 import {
   CButtonGroup,
+  CCol,
+  CContainer,
   CFormCheck,
+  CPagination,
+  CPaginationItem,
+  CRow,
   CTable,
   CTableBody,
   CTableDataCell,
@@ -13,22 +18,47 @@ import { DocsExample } from 'src/components';
 
 import * as Api from '../../api';
 
+import './custom-member.css';
+
 function Member() {
   const [members, setMembers] = useState([]);
   const [checkedButton, setCheckedButton] = useState('entire');
+  const [total, setTotal] = useState(0);
+  const [cur, setCur] = useState(1);
 
   useEffect(() => {
-    Api.get('/api/backoffice/member/entire').then((res) =>
-      setMembers([...res.data])
+    Api.get(`/api/backoffice/member/${checkedButton}?page=${cur}`).then(
+      (res) => {
+        setMembers([...res.data.members]);
+        setTotal(() => {
+          const temp = res.data.count;
+
+          let totalPage = Math.floor(temp / 20);
+
+          if (temp % 20 > 0) {
+            totalPage += 1;
+          }
+
+          return totalPage;
+        });
+      }
     );
-  }, []);
+  }, [cur, checkedButton]);
 
   const handleMemberCheckbox = (e) => {
     const { id } = e.target;
     setCheckedButton(() => id);
-    Api.get(`/api/backoffice/member/${id}`).then((res) =>
-      setMembers([...res.data])
-    );
+    setCur(1);
+  };
+
+  const pageIncrease = () => {
+    if (cur === total) return;
+    setCur((prev) => prev + 1);
+  };
+
+  const pageDecrease = () => {
+    if (cur === 1) return;
+    setCur((prev) => prev - 1);
   };
 
   const createTable = (selected) => {
@@ -130,53 +160,87 @@ function Member() {
     }
   };
 
+  const createPagenation = () => {
+    return (
+      <CPaginationItem
+        style={{ color: '#376558' }}
+      >{`${cur}/${total}`}</CPaginationItem>
+    );
+  };
+
   return (
     <>
-      <CButtonGroup
-        role="group"
-        aria-label="Basic checkbox toggle button group"
-      >
-        <CFormCheck
-          type="radio"
-          button={{ color: 'primary', variant: 'outline' }}
-          name="member"
-          id="entire"
-          autoComplete="off"
-          label="전체"
-          defaultChecked={checkedButton === 'entire'}
-          onClick={handleMemberCheckbox}
-        />
-        <CFormCheck
-          type="radio"
-          button={{ color: 'primary', variant: 'outline' }}
-          name="member"
-          id="heendy"
-          autoComplete="off"
-          label="흰디클럽"
-          defaultChecked={checkedButton === 'heendy'}
-          onClick={handleMemberCheckbox}
-        />
-        <CFormCheck
-          type="radio"
-          button={{ color: 'primary', variant: 'outline' }}
-          name="member"
-          id="subscribe"
-          autoComplete="off"
-          label="구독"
-          defaultChecked={checkedButton === 'subscribe'}
-          onClick={handleMemberCheckbox}
-        />
-        <CFormCheck
-          type="radio"
-          button={{ color: 'primary', variant: 'outline' }}
-          name="member"
-          id="delivery"
-          autoComplete="off"
-          label="정기배송"
-          defaultChecked={checkedButton === 'delivery'}
-          onClick={handleMemberCheckbox}
-        />
-      </CButtonGroup>
+      <CContainer>
+        <CRow>
+          <CCol>
+            <CButtonGroup
+              role="group"
+              aria-label="Basic checkbox toggle button group"
+            >
+              <CFormCheck
+                type="radio"
+                button={{ color: 'dark', variant: 'outline' }}
+                name="member"
+                id="entire"
+                autoComplete="off"
+                label="전체"
+                defaultChecked={checkedButton === 'entire'}
+                onClick={handleMemberCheckbox}
+                style={{ color: 'black' }}
+              />
+              <CFormCheck
+                type="radio"
+                button={{ color: 'dark', variant: 'outline' }}
+                name="member"
+                id="heendy"
+                autoComplete="off"
+                label="흰디클럽"
+                defaultChecked={checkedButton === 'heendy'}
+                onClick={handleMemberCheckbox}
+              />
+              <CFormCheck
+                type="radio"
+                button={{ color: 'dark', variant: 'outline' }}
+                name="member"
+                id="subscribe"
+                autoComplete="off"
+                label="구독"
+                defaultChecked={checkedButton === 'subscribe'}
+                onClick={handleMemberCheckbox}
+              />
+              <CFormCheck
+                type="radio"
+                button={{ color: 'dark', variant: 'outline' }}
+                name="member"
+                id="delivery"
+                autoComplete="off"
+                label="정기배송"
+                defaultChecked={checkedButton === 'delivery'}
+                onClick={handleMemberCheckbox}
+              />
+            </CButtonGroup>
+          </CCol>
+          <CCol style={{ display: 'flex', justifyContent: 'end' }}>
+            <CPagination aria-label="Page navigation example">
+              <CPaginationItem
+                aria-label="Previous"
+                onClick={pageDecrease}
+                style={{ cursor: 'pointer', color: '#376558' }}
+              >
+                <span aria-hidden="true">&laquo;</span>
+              </CPaginationItem>
+              {createPagenation()}
+              <CPaginationItem
+                aria-label="Next"
+                onClick={pageIncrease}
+                style={{ cursor: 'pointer', color: '#376558' }}
+              >
+                <span aria-hidden="true">&raquo;</span>
+              </CPaginationItem>
+            </CPagination>
+          </CCol>
+        </CRow>
+      </CContainer>
       {members !== undefined && members !== null && createTable(checkedButton)}
       {/* <CTable>
         <CTableHead>
