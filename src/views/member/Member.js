@@ -12,11 +12,10 @@ import {
   CTableHead,
   CTableHeaderCell,
   CTableRow,
-} from "@coreui/react";
-import React, { useEffect, useRef, useState } from "react";
-import { DocsExample } from "src/components";
-import * as Api from "../../api";
-
+} from '@coreui/react';
+import React, { useEffect, useRef, useState } from 'react';
+import { DocsExample } from 'src/components';
+import * as Api from '../../api';
 
 import './custom-member.css';
 
@@ -130,9 +129,6 @@ function Member() {
               <CTableHeaderCell scope="col">ID</CTableHeaderCell>
               <CTableHeaderCell scope="col">이름</CTableHeaderCell>
               <CTableHeaderCell scope="col">이메일</CTableHeaderCell>
-              <CTableHeaderCell scope="col">
-                흰디클럽 가입 여부
-              </CTableHeaderCell>
               <CTableHeaderCell scope="col">핸드폰번호</CTableHeaderCell>
               <CTableHeaderCell scope="col">시작 날짜</CTableHeaderCell>
               <CTableHeaderCell scope="col">종료 날짜</CTableHeaderCell>
@@ -145,7 +141,6 @@ function Member() {
                 <CTableHeaderCell scope="row">{member.id}</CTableHeaderCell>
                 <CTableDataCell>{member.name}</CTableDataCell>
                 <CTableDataCell>{member.email}</CTableDataCell>
-                <CTableDataCell>{member.clubHeendyYn}</CTableDataCell>
                 <CTableDataCell>{member.phoneNumber}</CTableDataCell>
                 <CTableDataCell>{member.startDate}</CTableDataCell>
                 <CTableDataCell>
@@ -194,7 +189,7 @@ function Member() {
                 name="member"
                 id="heendy"
                 autoComplete="off"
-                label="흰디클럽"
+                label="반려동물 등록 고객"
                 defaultChecked={checkedButton === 'heendy'}
                 onClick={handleMemberCheckbox}
               />
@@ -204,7 +199,7 @@ function Member() {
                 name="member"
                 id="subscribe"
                 autoComplete="off"
-                label="구독"
+                label="더펫 박스 구독"
                 defaultChecked={checkedButton === 'subscribe'}
                 onClick={handleMemberCheckbox}
               />
@@ -214,7 +209,7 @@ function Member() {
                 name="member"
                 id="delivery"
                 autoComplete="off"
-                label="정기배송"
+                label="상품 정기배송"
                 defaultChecked={checkedButton === 'delivery'}
                 onClick={handleMemberCheckbox}
               />
