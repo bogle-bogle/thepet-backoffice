@@ -71,13 +71,13 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: '일반 상품 등록',
-        to: '/productregister/general',
+        name: '구독 상품 등록',
+        to: '/productregister/curation',
       },
       {
         component: CNavItem,
-        name: '구독 상품 등록',
-        to: '/productregister/curation',
+        name: '일반 상품 등록',
+        to: '/productregister/general',
       },
     ],
   },

@@ -14,7 +14,7 @@ const DefaultLayout = () => {
         <AppHeader />
         <div
           className="body flex-grow-1 px-3"
-          style={{ background: 'rgb(231, 231, 231)' }}
+          style={{ background: 'rgb(235, 237, 239)' }}
         >
           <AppContent />
         </div>
