@@ -82,6 +82,18 @@ const _nav = [
     ],
   },
   {
+    component: CNavItem,
+    name: '로그 통계',
+    to: '/eventlog',
+    icon: (
+      <CIcon
+        icon={cilSpeedometer}
+        customClassName="nav-icon"
+        style={{ color: 'black' }}
+      />
+    ),
+  },
+  {
     component: CNavGroup,
     name: '흰디카 (반려견 트롤리) ',
     to: '/heendycar',
@@ -99,18 +111,6 @@ const _nav = [
         to: '/heendycar/BranchHeendyCar',
       },
     ],
-  },
-  {
-    component: CNavItem,
-    name: '로그 통계',
-    to: '/eventlog',
-    icon: (
-      <CIcon
-        icon={cilSpeedometer}
-        customClassName="nav-icon"
-        style={{ color: 'black' }}
-      />
-    ),
   },
 ];
 
