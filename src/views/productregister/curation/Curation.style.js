@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { CWidgetStatsF } from "@coreui/react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import styled from 'styled-components';
+import { CWidgetStatsF } from '@coreui/react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export const SearchContainer = styled.div`
   display: flex;
@@ -21,5 +21,4 @@ export const CustomDatePicker = styled(DatePicker)`
   color: #495057;
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
-
-`
+`;
