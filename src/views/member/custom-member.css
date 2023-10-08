@@ -9,3 +9,8 @@
 .btn-group + label {
   color: black;
 }
+
+.member-count {
+  font-size: 19px;
+  color: black;
+}

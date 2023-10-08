@@ -3,6 +3,8 @@ import {
   CCol,
   CContainer,
   CFormCheck,
+  CInputGroup,
+  CInputGroupText,
   CPagination,
   CPaginationItem,
   CRow,
@@ -14,21 +16,24 @@ import {
   CTableRow,
 } from '@coreui/react';
 import React, { useEffect, useRef, useState } from 'react';
-import { DocsExample } from 'src/components';
 import * as Api from '../../api';
-
+import DatePicker from 'react-datepicker';
 import './custom-member.css';
+import { CustomDatePicker } from '../productregister/curation/Curation.style';
 
 function Member() {
   const [members, setMembers] = useState([]);
   const [checkedButton, setCheckedButton] = useState('entire');
   const [total, setTotal] = useState(0);
+  const [totalMember, setTotalMember] = useState(0);
   const [cur, setCur] = useState(1);
-
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
   useEffect(() => {
     Api.get(`/api/backoffice/member/${checkedButton}?page=${cur}`).then(
       (res) => {
         setMembers([...res.data.members]);
+        setTotalMember(res.data.count);
         setTotal(() => {
           const temp = res.data.count;
 
@@ -43,6 +48,28 @@ function Member() {
       }
     );
   }, [cur, checkedButton]);
+
+  // useEffect(() => {
+  //   Api.post(`/api/backoffice/member/${checkedButton}`, {
+  //     page: cur,
+  //     start: startDate,
+  //     end: endDate,
+  //   }).then((res) => {
+  //     setMembers([...res.data.members]);
+  //     setTotalMember(res.data.count);
+  //     setTotal(() => {
+  //       const temp = res.data.count;
+
+  //       let totalPage = Math.floor(temp / 20);
+
+  //       if (temp % 20 > 0) {
+  //         totalPage += 1;
+  //       }
+
+  //       return totalPage;
+  //     });
+  //   });
+  // }, [cur, checkedButton]);
 
   const handleMemberCheckbox = (e) => {
     const { id } = e.target;
@@ -167,7 +194,7 @@ function Member() {
     <>
       <CContainer>
         <CRow>
-          <CCol>
+          <CCol md="auto">
             <CButtonGroup
               role="group"
               aria-label="Basic checkbox toggle button group"
@@ -215,8 +242,35 @@ function Member() {
               />
             </CButtonGroup>
           </CCol>
-          <CCol style={{ display: 'flex', justifyContent: 'end' }}>
+
+          <CCol md="auto">
+            <CInputGroup className="mb-3">
+              <CustomDatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+              />
+            </CInputGroup>
+          </CCol>
+          <CCol
+            md="auto"
+            style={{ padding: 0, fontWeight: 'bold', fontSize: '20px' }}
+          >
+            ~
+          </CCol>
+          <CCol md="auto">
+            <CInputGroup className="mb-3">
+              <CustomDatePicker
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+              />
+            </CInputGroup>
+          </CCol>
+
+          <CCol md="auto">
             <CPagination aria-label="Page navigation example">
+              <CPaginationItem
+                style={{ color: 'black' }}
+              >{`${totalMember}명`}</CPaginationItem>
               <CPaginationItem
                 aria-label="Previous"
                 onClick={pageDecrease}
