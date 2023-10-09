@@ -5,29 +5,26 @@ import {
   CCol,
   CContainer,
   CRow,
-} from "@coreui/react";
-import { CChartPie } from "@coreui/react-chartjs";
-import React, { useState } from "react";
+} from '@coreui/react';
+import { CChartPie } from '@coreui/react-chartjs';
+import React, { useState } from 'react';
 
 const colorList = [
-  "#FF6384",
-  "#36A2EB",
-  "#FFCE56",
-  "#321fdb",
-  "#9da5b1",
-  "#2eb85c",
-  "#e55353",
-  "#f9b115",
-  "#3399ff",
-  "#ebedef",
-  "#4f5d73",
+  '#FF6384',
+  '#36A2EB',
+  '#FFCE56',
+  '#321fdb',
+  '#9da5b1',
+  '#2eb85c',
+  '#e55353',
+  '#f9b115',
+  '#3399ff',
+  '#ebedef',
+  '#4f5d73',
 ];
 
 function SuggestionLog({ statistics }) {
   const { suggestionLog, mbtiLog } = statistics;
-  console.log(suggestionLog);
-  //   const [suggestionLog] = useState(statistics.suggestionLog);
-  //   const [mbtiLog] = useState(statistics.mbtiLog);
 
   return (
     <CContainer>

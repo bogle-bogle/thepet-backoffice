@@ -23,7 +23,6 @@ function Productstatistics() {
     Api.get(`/api/backoffice/top10`)
       .then((response) => {
         const fetchedData = response.data;
-        console.log(fetchedData);
         setMonthTop10Data(fetchedData.slice(0, 10));
 
         const frequency = fetchedData.reduce((acc, item) => {

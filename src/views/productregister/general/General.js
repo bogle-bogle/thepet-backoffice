@@ -9,6 +9,7 @@ import {
   CFormLabel,
   CFormSelect,
   CFormTextarea,
+  CImage,
   CInputGroup,
   CInputGroupText,
   CRow,
@@ -70,21 +71,27 @@ function General() {
     setDescImgFile(imgUrl);
   };
 
+  const handleFoodDescImageUpload = async (e) => {
+    const descImgFile = e.target.files[0];
+    const imgUrl = await uploadImageToS3(descImgFile);
+    setFoodDescImgFile(imgUrl);
+  };
+
   const handleOcrBtn = async () => {
     if (!foodDescImgFile) {
       alert('성분 이미지 파일을 선택해주세요.');
       return;
     }
-    const imgUrl = await uploadImageToS3(foodDescImgFile);
-    console.log('imgUrl', imgUrl);
-    await axios.post(`https://ocr-nlp.thepet.thehyundai.site/ai/ocr`, {
-      imgUrl,
-    }).then((res) => {
-      if (res.data) {
-        console.log(res.data);
-        setOCRResult(res.data);
-      }
-    });
+
+    await axios
+      .post(`https://ocr-nlp.thepet.thehyundai.site/ai/ocr`, {
+        imgUrl: foodDescImgFile,
+      })
+      .then((res) => {
+        if (res.data) {
+          setOCRResult(res.data);
+        }
+      });
   };
 
   const uploadImageToS3 = async (imageFile) => {
@@ -112,7 +119,6 @@ function General() {
       animalTypeCode: animalCategory,
       proteinCode: subSubCategory,
     };
-    console.log(productData);
     axios.post('/api/product/general', productData).then((res) => {
       console.log(res.data);
     });
@@ -199,18 +205,39 @@ function General() {
           <CInputGroup className="mb-3">
             <CFormInput type="file" onChange={handleMainImageUpload} />
           </CInputGroup>
+          {mainImgFile !== '' && (
+            <>
+              <CImage
+                rounded
+                thumbnail
+                src={mainImgFile}
+                width={200}
+                height={200}
+              />
+              <br />
+            </>
+          )}
 
           <CFormLabel>상품 상세 이미지 *</CFormLabel>
           <CInputGroup className="mb-3">
             <CFormInput type="file" onChange={handleDescImageUpload} />
           </CInputGroup>
+          {descImgFile !== '' && (
+            <>
+              <CImage
+                rounded
+                thumbnail
+                src={descImgFile}
+                width={200}
+                height={200}
+              />
+              <br />
+            </>
+          )}
 
           <CFormLabel>(식품) 사료 성분 이미지</CFormLabel>
           <CInputGroup>
-            <CFormInput
-              type="file"
-              onChange={(e) => setFoodDescImgFile(e.target.files[0])}
-            />
+            <CFormInput type="file" onChange={handleFoodDescImageUpload} />
             <CButton
               type="button"
               onClick={handleOcrBtn}
@@ -221,6 +248,18 @@ function General() {
               * OCR로 성분 추출
             </CButton>
           </CInputGroup>
+          {foodDescImgFile !== '' && (
+            <>
+              <CImage
+                rounded
+                thumbnail
+                src={foodDescImgFile}
+                width={400}
+                height={400}
+              />
+              <br />
+            </>
+          )}
           <CFormLabel></CFormLabel>
           <CInputGroup>
             <CInputGroupText>식품 OCR 추출 결과</CInputGroupText>

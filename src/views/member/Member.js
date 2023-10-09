@@ -27,49 +27,60 @@ function Member() {
   const [total, setTotal] = useState(0);
   const [totalMember, setTotalMember] = useState(0);
   const [cur, setCur] = useState(1);
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-  useEffect(() => {
-    Api.get(`/api/backoffice/member/${checkedButton}?page=${cur}`).then(
-      (res) => {
-        setMembers([...res.data.members]);
-        setTotalMember(res.data.count);
-        setTotal(() => {
-          const temp = res.data.count;
-
-          let totalPage = Math.floor(temp / 20);
-
-          if (temp % 20 > 0) {
-            totalPage += 1;
-          }
-
-          return totalPage;
-        });
-      }
-    );
-  }, [cur, checkedButton]);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   // useEffect(() => {
-  //   Api.post(`/api/backoffice/member/${checkedButton}`, {
-  //     page: cur,
-  //     start: startDate,
-  //     end: endDate,
-  //   }).then((res) => {
-  //     setMembers([...res.data.members]);
-  //     setTotalMember(res.data.count);
-  //     setTotal(() => {
-  //       const temp = res.data.count;
+  //   Api.get(`/api/backoffice/member/${checkedButton}?page=${cur}`).then(
+  //     (res) => {
+  //       setMembers([...res.data.members]);
+  //       setTotalMember(res.data.count);
+  //       setTotal(() => {
+  //         const temp = res.data.count;
 
-  //       let totalPage = Math.floor(temp / 20);
+  //         let totalPage = Math.floor(temp / 20);
 
-  //       if (temp % 20 > 0) {
-  //         totalPage += 1;
-  //       }
+  //         if (temp % 20 > 0) {
+  //           totalPage += 1;
+  //         }
 
-  //       return totalPage;
-  //     });
-  //   });
+  //         return totalPage;
+  //       });
+  //     }
+  //   );
   // }, [cur, checkedButton]);
+
+  useEffect(() => {
+    Api.post(`/api/backoffice/member/${checkedButton}`, {
+      page: (cur - 1) * 20 + 1,
+      startDate:
+        startDate === null
+          ? null
+          : `${startDate.getFullYear()}/${
+              startDate.getMonth() + 1
+            }/${startDate.getDate()}`,
+      endDate:
+        endDate === null
+          ? null
+          : `${endDate.getFullYear()}/${
+              endDate.getMonth() + 1
+            }/${endDate.getDate()}`,
+    }).then((res) => {
+      setMembers([...res.data.members]);
+      setTotalMember(res.data.count);
+      setTotal(() => {
+        const temp = res.data.count;
+
+        let totalPage = Math.floor(temp / 20);
+
+        if (temp % 20 > 0) {
+          totalPage += 1;
+        }
+
+        return totalPage;
+      });
+    });
+  }, [cur, checkedButton, startDate, endDate]);
 
   const handleMemberCheckbox = (e) => {
     const { id } = e.target;
