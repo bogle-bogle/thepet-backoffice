@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   CCard,
   CCardBody,
@@ -20,9 +20,9 @@ import {
   CTableDataCell,
   CModalFooter,
   CButton,
-} from "@coreui/react";
+} from '@coreui/react';
 import { format } from 'date-fns';
-import * as Api from "../../api";
+import * as Api from '../../api';
 
 function BranchHeendyCar() {
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -32,33 +32,30 @@ function BranchHeendyCar() {
 
   useEffect(() => {
     Api.get(`/api/hc/branch`)
-        .then((res) => {
-          const transformedData = res.data.map((item) => ({
-            branchCode: item.branchCode,
-            name: item.name,
-            cnt: item.cnt,
-            imgUrl: item.imgUrl,
-            descr: item.description,
-          }));
-          setSelectedProducts(transformedData);
-        })
-        
-        .catch((Error) => {
-          console.info("Error");
-        });
-    }, []);
+      .then((res) => {
+        const transformedData = res.data.map((item) => ({
+          branchCode: item.branchCode,
+          name: item.name,
+          cnt: item.cnt,
+          imgUrl: item.imgUrl,
+          descr: item.description,
+        }));
+        setSelectedProducts(transformedData);
+      })
 
+      .catch((Error) => {
+        console.info('Error');
+      });
+  }, []);
 
   const openSuppliesSearchModal = (branchCode) => {
-    Api
-      .get(`/api/hc/branch/${branchCode}/reservation`)
+    Api.get(`/api/hc/branch/${branchCode}/reservation`)
       .then((res) => {
-        console.log(res.data);
         setSuppliesSearchResults(res.data);
         setShowEachBranchVisible(true);
       })
       .catch((Error) => {
-        console.info("Error");
+        console.info('Error');
       });
   };
 
@@ -66,29 +63,35 @@ function BranchHeendyCar() {
     setShowEachBranchVisible(false);
   };
 
-
   const handleToggle = (e, productId, newValue, idx) => {
-    Api
-        .put(`/api/hc/updateStatus/${productId}/${e.target.id}/${newValue}`)
-        .then(res => {
-          if (res.status === 200) {
-            setSuppliesSearchResults((prev) => {
-              const newList = [...prev];
-              newList[idx][e.target.id] = newValue;
-              return newList;
-            })
-          }
-        })
+    Api.put(
+      `/api/hc/updateStatus/${productId}/${e.target.id}/${newValue}`
+    ).then((res) => {
+      if (res.status === 200) {
+        setSuppliesSearchResults((prev) => {
+          const newList = [...prev];
+          newList[idx][e.target.id] = newValue;
+          return newList;
+        });
+      }
+    });
   };
-  
+
   return (
     <>
-    {showEachBranchVisible && <CModal size='xl' alignment="center" scrollable visible={showEachBranchVisible} onClose={() => setShowEachBranchVisible(false)}>
-        <CModalHeader>
-          <CModalTitle>예약 현황</CModalTitle>
-        </CModalHeader>
-        <CModalBody>
-        <CTable>
+      {showEachBranchVisible && (
+        <CModal
+          size="xl"
+          alignment="center"
+          scrollable
+          visible={showEachBranchVisible}
+          onClose={() => setShowEachBranchVisible(false)}
+        >
+          <CModalHeader>
+            <CModalTitle>예약 현황</CModalTitle>
+          </CModalHeader>
+          <CModalBody>
+            <CTable>
               <CTableHead>
                 <CTableRow>
                   <CTableHeaderCell scope="col">회원 번호</CTableHeaderCell>
@@ -110,13 +113,25 @@ function BranchHeendyCar() {
                   </CTableRow>
                 ) : (
                   suppliesSearchResults.map((product, idx) => (
-                    
                     <CTableRow key={product.id}>
-                      <CTableDataCell scope="row">{product.memberId}</CTableDataCell>
-                      <CTableDataCell scope="row">{product.serialNumber}</CTableDataCell>
-                      <CTableDataCell scope="row">{product.name}</CTableDataCell>
-                      <CTableDataCell scope="row">{product.phoneNumber ?product.phoneNumber :''}</CTableDataCell>
-                      <CTableDataCell scope="row">{format(new Date(product.reservationTime), 'yyyy-MM-dd HH:mm:ss')}</CTableDataCell>
+                      <CTableDataCell scope="row">
+                        {product.memberId}
+                      </CTableDataCell>
+                      <CTableDataCell scope="row">
+                        {product.serialNumber}
+                      </CTableDataCell>
+                      <CTableDataCell scope="row">
+                        {product.name}
+                      </CTableDataCell>
+                      <CTableDataCell scope="row">
+                        {product.phoneNumber ? product.phoneNumber : ''}
+                      </CTableDataCell>
+                      <CTableDataCell scope="row">
+                        {format(
+                          new Date(product.reservationTime),
+                          'yyyy-MM-dd HH:mm:ss'
+                        )}
+                      </CTableDataCell>
                       <CTableDataCell scope="row">
                         <span
                           style={{
@@ -125,8 +140,23 @@ function BranchHeendyCar() {
                           }}
                         >
                           {product.pickupYn}
-                        </span> 
-                        <CButton id="pickupYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.pickupYn === "Y"? "N" : "Y", idx)} disabled={product.pickupYn === 'Y' ||product.cancelYn === 'Y'}>
+                        </span>
+                        <CButton
+                          id="pickupYn"
+                          style={{ marginLeft: '20px' }}
+                          color="light"
+                          onClick={(event) =>
+                            handleToggle(
+                              event,
+                              product.id,
+                              product.pickupYn === 'Y' ? 'N' : 'Y',
+                              idx
+                            )
+                          }
+                          disabled={
+                            product.pickupYn === 'Y' || product.cancelYn === 'Y'
+                          }
+                        >
                           {product.pickupYn === 'Y' ? '완료' : '대기중'}
                         </CButton>
                       </CTableDataCell>
@@ -138,8 +168,23 @@ function BranchHeendyCar() {
                           }}
                         >
                           {product.cancelYn}
-                        </span> 
-                        <CButton id="cancelYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.cancelYn === "Y"? "N" : "Y", idx)} disabled={product.returnYn === 'Y'||product.cancelYn === 'Y'}>
+                        </span>
+                        <CButton
+                          id="cancelYn"
+                          style={{ marginLeft: '20px' }}
+                          color="light"
+                          onClick={(event) =>
+                            handleToggle(
+                              event,
+                              product.id,
+                              product.cancelYn === 'Y' ? 'N' : 'Y',
+                              idx
+                            )
+                          }
+                          disabled={
+                            product.returnYn === 'Y' || product.cancelYn === 'Y'
+                          }
+                        >
                           {product.cancelYn === 'Y' ? '완료' : '대기중'}
                         </CButton>
                       </CTableDataCell>
@@ -151,8 +196,23 @@ function BranchHeendyCar() {
                           }}
                         >
                           {product.returnYn}
-                        </span> 
-                        <CButton id="returnYn" style={{marginLeft: '20px'}} color="light" onClick={(event) => handleToggle(event, product.id, product.returnYn === "Y"? "N" : "Y", idx)} disabled={product.returnYn === 'Y'||product.cancelYn === 'Y'}>
+                        </span>
+                        <CButton
+                          id="returnYn"
+                          style={{ marginLeft: '20px' }}
+                          color="light"
+                          onClick={(event) =>
+                            handleToggle(
+                              event,
+                              product.id,
+                              product.returnYn === 'Y' ? 'N' : 'Y',
+                              idx
+                            )
+                          }
+                          disabled={
+                            product.returnYn === 'Y' || product.cancelYn === 'Y'
+                          }
+                        >
                           {product.returnYn === 'Y' ? '완료' : '대기중'}
                         </CButton>
                       </CTableDataCell>
@@ -161,37 +221,54 @@ function BranchHeendyCar() {
                 )}
               </CTableBody>
             </CTable>
-        </CModalBody>
-      </CModal>}
-    <CCol xs={12}>
-      <CCard className="mb-4">
-        <CCardHeader>
-          <strong>지점 별 예약 현황</strong>
-        </CCardHeader>
-        <CCardBody>
-          <CRow xs={{ cols: 5 }} md={{ cols: 3 }} className="g-4">
-            {selectedProducts.map((product, index) => (
-              <CCol xs key={index}>
-                <CCard className="h-100" onClick={() => {
-                  setShowEachBranchVisible(true);
-                  openSuppliesSearchModal(product.branchCode)
-                  }}>
-                  <CCardImage orientation="top" src={product.imgUrl || ""} style={{height:"265px"}} />
-                  <CCardBody>
-                    <CCardTitle>{product.name || ""}</CCardTitle>
-                    <CCardText>
-                      잔여량 : <span className={product.cnt >= 15 ? "text-success" : (product.cnt >= 7 ? "text-warning" : "text-danger")}>
-                                {product.cnt ? product.cnt.toLocaleString() : ""}
-                              </span>
-                    </CCardText>
-                  </CCardBody>
-                </CCard>
-              </CCol>
-            ))}
-          </CRow>
-        </CCardBody>
-      </CCard>
-    </CCol>
+          </CModalBody>
+        </CModal>
+      )}
+      <CCol xs={12}>
+        <CCard className="mb-4">
+          <CCardHeader>
+            <strong>지점 별 예약 현황</strong>
+          </CCardHeader>
+          <CCardBody>
+            <CRow xs={{ cols: 5 }} md={{ cols: 3 }} className="g-4">
+              {selectedProducts.map((product, index) => (
+                <CCol xs key={index}>
+                  <CCard
+                    className="h-100"
+                    onClick={() => {
+                      setShowEachBranchVisible(true);
+                      openSuppliesSearchModal(product.branchCode);
+                    }}
+                  >
+                    <CCardImage
+                      orientation="top"
+                      src={product.imgUrl || ''}
+                      style={{ height: '265px' }}
+                    />
+                    <CCardBody>
+                      <CCardTitle>{product.name || ''}</CCardTitle>
+                      <CCardText>
+                        잔여량 :{' '}
+                        <span
+                          className={
+                            product.cnt >= 15
+                              ? 'text-success'
+                              : product.cnt >= 7
+                              ? 'text-warning'
+                              : 'text-danger'
+                          }
+                        >
+                          {product.cnt ? product.cnt.toLocaleString() : ''}
+                        </span>
+                      </CCardText>
+                    </CCardBody>
+                  </CCard>
+                </CCol>
+              ))}
+            </CRow>
+          </CCardBody>
+        </CCard>
+      </CCol>
     </>
   );
 }
