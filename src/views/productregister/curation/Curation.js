@@ -27,6 +27,7 @@ import {
   CCardImage,
   CCardText,
   CWidgetStatsF,
+  CImage,
 } from '@coreui/react';
 import { SearchContainer, SearchImg, CustomDatePicker } from './Curation.style';
 import * as Api from '../../../api';
@@ -96,7 +97,6 @@ function Curation() {
       .then((res) => {
         if (res.data) {
           setSearchProductList(res.data);
-          console.log(res.data);
         }
       })
       .catch((error) => {
@@ -116,7 +116,6 @@ function Curation() {
       product2Id: selectedToy.id,
       product3Id: selectedSupplies.id,
     };
-    console.log(curationData);
     Api.post(`/api/curation`, curationData).then((res) => {
       console.log(res.data);
     });
@@ -358,14 +357,33 @@ function Curation() {
             />
             <CInputGroupText> ₩ </CInputGroupText>
           </CInputGroup>
+
           <CFormLabel>구독 상품 대표 이미지 *</CFormLabel>
           <CInputGroup className="mb-3">
             <CFormInput type="file" onChange={handleThumbnailImageUpload} />
           </CInputGroup>
+          {thumbnailImgUrl !== '' && (
+            <>
+              <CImage
+                rounded
+                thumbnail
+                src={thumbnailImgUrl}
+                width={200}
+                height={200}
+              />
+              <br />
+            </>
+          )}
           <CFormLabel>구독 상품 상세 이미지 *</CFormLabel>
           <CInputGroup className="mb-3">
             <CFormInput type="file" onChange={handleImageUpload} />
           </CInputGroup>
+          {imgUrl !== '' && (
+            <>
+              <CImage rounded thumbnail src={imgUrl} />
+              <br />
+            </>
+          )}
           <CFormLabel>구성 상품 정하기 (식품 / 장난감 / 의류) *</CFormLabel>
           <SearchContainer>
             <CInputGroup className="mb-3">
@@ -458,11 +476,7 @@ function Curation() {
               <CCard className="h-100">
                 <CCardImage
                   orientation="top"
-                  src={
-                    selectedFood
-                      ? selectedFood.mainImgUrl
-                      : DogFoodURL
-                  }
+                  src={selectedFood ? selectedFood.mainImgUrl : DogFoodURL}
                 />
                 <CCardBody>
                   <CCardTitle>
@@ -478,11 +492,7 @@ function Curation() {
               <CCard className="h-100">
                 <CCardImage
                   orientation="top"
-                  src={
-                    selectedToy
-                      ? selectedToy.mainImgUrl
-                      : DogToyURL
-                    }
+                  src={selectedToy ? selectedToy.mainImgUrl : DogToyURL}
                 />
                 <CCardBody>
                   <CCardTitle>{selectedToy ? selectedToy.name : ''}</CCardTitle>
@@ -497,10 +507,8 @@ function Curation() {
                 <CCardImage
                   orientation="top"
                   src={
-                    selectedSupplies
-                      ? selectedSupplies.mainImgUrl
-                      : DogFsURL
-                    }
+                    selectedSupplies ? selectedSupplies.mainImgUrl : DogFsURL
+                  }
                 />
                 <CCardBody>
                   <CCardTitle>
