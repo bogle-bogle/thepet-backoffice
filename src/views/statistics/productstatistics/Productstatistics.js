@@ -86,7 +86,7 @@ function Productstatistics() {
                   <CTableHeaderCell scope="col">상품코드</CTableHeaderCell>
                   <CTableHeaderCell scope="col">상품이름</CTableHeaderCell>
                   <CTableHeaderCell scope="col"></CTableHeaderCell>
-                  <CTableHeaderCell scope="col">월 판매량</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">판매량</CTableHeaderCell>
                   <CTableHeaderCell scope="col">월 매출</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
