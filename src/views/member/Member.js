@@ -51,6 +51,22 @@ function Member() {
   // }, [cur, checkedButton]);
 
   useEffect(() => {
+    const data = {
+      page: (cur - 1) * 20 + 1,
+      startDate:
+        startDate === null
+          ? null
+          : `${startDate.getFullYear()}/${
+              startDate.getMonth() + 1
+            }/${startDate.getDate()}`,
+      endDate:
+        endDate === null
+          ? null
+          : `${endDate.getFullYear()}/${
+              endDate.getMonth() + 1
+            }/${endDate.getDate()}`,
+    };
+
     Api.post(`/api/backoffice/member/${checkedButton}`, {
       page: (cur - 1) * 20 + 1,
       startDate:
@@ -67,6 +83,7 @@ function Member() {
             }/${endDate.getDate()}`,
     }).then((res) => {
       setMembers([...res.data.members]);
+      console.log(res.data);
       setTotalMember(res.data.count);
       setTotal(() => {
         const temp = res.data.count;
@@ -281,7 +298,7 @@ function Member() {
             <CPagination aria-label="Page navigation example">
               <CPaginationItem
                 style={{ color: 'black' }}
-              >{`${totalMember}명`}</CPaginationItem>
+              >{`${totalMember.toLocaleString()}명`}</CPaginationItem>
               <CPaginationItem
                 aria-label="Previous"
                 onClick={pageDecrease}
