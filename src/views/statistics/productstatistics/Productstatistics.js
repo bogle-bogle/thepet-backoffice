@@ -54,7 +54,7 @@ function Productstatistics() {
 
   return (
     <CRow>
-      <CCol xs={12}>
+      <CCol xs={9}>
         <h3>
           <strong>
             📊 지난 달 {currentMonth - 1}월 상품별 매출 현황 (매달 1일 자동
@@ -63,7 +63,7 @@ function Productstatistics() {
         </h3>
         <div>&nbsp;</div>
       </CCol>
-      <CCol xs={6}>
+      <CCol xs={4}>
         <CCard className="mb-4">
           <CCardHeader>
             <strong>대분류 별 판매량 건수 (용품 / 식품 / 의류 / 장난감)</strong>
@@ -73,7 +73,7 @@ function Productstatistics() {
           </CCardBody>
         </CCard>
       </CCol>
-      <CCol xs={6}>
+      <CCol xs={8}>
         <CCard className="mb-4">
           <CCardHeader>
             <strong>매출 기준 순위 TOP10</strong>

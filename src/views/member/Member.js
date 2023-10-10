@@ -27,8 +27,8 @@ function Member() {
   const [total, setTotal] = useState(0);
   const [totalMember, setTotalMember] = useState(0);
   const [cur, setCur] = useState(1);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState(new Date('2023-9-1'));
+  const [endDate, setEndDate] = useState(new Date('2023-9-30'));
 
   // useEffect(() => {
   //   Api.get(`/api/backoffice/member/${checkedButton}?page=${cur}`).then(
