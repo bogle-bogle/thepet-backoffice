@@ -185,9 +185,9 @@ function Member() {
               <CTableHeaderCell scope="col">이름</CTableHeaderCell>
               <CTableHeaderCell scope="col">이메일</CTableHeaderCell>
               <CTableHeaderCell scope="col">핸드폰번호</CTableHeaderCell>
+              <CTableHeaderCell scope="col">상품</CTableHeaderCell>
               <CTableHeaderCell scope="col">시작 날짜</CTableHeaderCell>
               <CTableHeaderCell scope="col">종료 날짜</CTableHeaderCell>
-              <CTableHeaderCell scope="col">상품</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
@@ -197,11 +197,11 @@ function Member() {
                 <CTableDataCell>{member.name}</CTableDataCell>
                 <CTableDataCell>{member.email}</CTableDataCell>
                 <CTableDataCell>{member.phoneNumber}</CTableDataCell>
+                <CTableDataCell>{member.productId}</CTableDataCell>
                 <CTableDataCell>{member.startDate}</CTableDataCell>
                 <CTableDataCell>
                   {member.endDate !== null ? member.endDate : '~'}
                 </CTableDataCell>
-                <CTableDataCell>{member.productId}</CTableDataCell>
               </CTableRow>
             ))}
           </CTableBody>
