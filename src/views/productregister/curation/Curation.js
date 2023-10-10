@@ -358,7 +358,7 @@ function Curation() {
             <CInputGroupText> ₩ </CInputGroupText>
           </CInputGroup>
 
-          <CFormLabel>구독 상품 대표 이미지 *</CFormLabel>
+          <CFormLabel>구독 상품 썸네일 *</CFormLabel>
           <CInputGroup className="mb-3">
             <CFormInput type="file" onChange={handleThumbnailImageUpload} />
           </CInputGroup>

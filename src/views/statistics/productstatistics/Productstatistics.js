@@ -54,7 +54,7 @@ function Productstatistics() {
 
   return (
     <CRow>
-      <CCol xs={9}>
+      <CCol xs={12}>
         <h3>
           <strong>
             📊 지난 달 {currentMonth - 1}월 상품별 매출 현황 (매달 1일 자동
