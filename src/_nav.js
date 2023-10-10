@@ -21,7 +21,7 @@ import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react';
 const _nav = [
   {
     component: CNavItem,
-    name: '회원 목록',
+    name: '회원 관리',
     to: '/member',
     icon: (
       <CIcon
